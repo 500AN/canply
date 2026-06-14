@@ -233,53 +233,59 @@ export default function AboutPage() {
           {/* Timeline */}
           <div className="relative">
             {/* Vertical Line */}
-            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-red-600 to-red-200"></div>
+            <div className="hidden md:block absolute left-1/2 top-0 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-red-600 to-red-200"></div>
 
             <motion.div className="space-y-12 md:space-y-16">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={milestone.year}
-                  variants={itemVariants}
-                  className="relative"
-                >
-                  <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${
-                    index % 2 === 1 ? 'md:dir-rtl' : ''
-                  }`}>
-                    {/* Content */}
-                    <div className={index % 2 === 1 ? 'md:dir-ltr' : ''}>
-                      <motion.div
-                        whileHover={{ x: index % 2 === 0 ? 8 : -8 }}
-                        className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all"
-                      >
-                        <h3 className="text-2xl font-bold text-red-600 mb-2 font-heading">
-                          {milestone.title}
-                        </h3>
-                        <p className="text-gray-600">{milestone.description}</p>
-                      </motion.div>
-                    </div>
+              {milestones.map((milestone, index) => {
+                const isEven = index % 2 === 0
 
+                return (
+                  <motion.div
+                    key={milestone.year}
+                    variants={itemVariants}
+                    className="relative"
+                  >
                     {/* Timeline Dot */}
-                    <div className="hidden md:flex justify-center">
+                    <div className="hidden md:flex absolute left-1/2 top-8 -translate-x-1/2 z-10">
                       <motion.div
                         whileHover={{ scale: 1.3 }}
                         className="w-6 h-6 bg-red-600 rounded-full border-4 border-white shadow-lg"
                       ></motion.div>
                     </div>
 
-                    {/* Year */}
-                    <div className="text-center md:text-right md:col-span-1">
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="text-4xl font-bold text-gray-300 font-heading"
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                      {/* Content card */}
+                      <div className={isEven ? 'md:order-1 md:pr-12' : 'md:order-2 md:pl-12'}>
+                        <motion.div
+                          whileHover={{ x: isEven ? -8 : 8 }}
+                          className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all"
+                        >
+                          <h3 className="text-2xl font-bold text-red-600 mb-2 font-heading">
+                            {milestone.title}
+                          </h3>
+                          <p className="text-gray-600">{milestone.description}</p>
+                        </motion.div>
+                      </div>
+
+                      {/* Year */}
+                      <div
+                        className={`${
+                          isEven ? 'md:order-2 md:pl-12 md:text-left' : 'md:order-1 md:pr-12 md:text-right'
+                        } text-center`}
                       >
-                        {milestone.year}
-                      </motion.span>
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.5, delay: index * 0.1 }}
+                          className="text-4xl font-bold text-gray-300 font-heading"
+                        >
+                          {milestone.year}
+                        </motion.span>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                )
+              })}
             </motion.div>
           </div>
         </div>
