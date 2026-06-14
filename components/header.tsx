@@ -2,18 +2,32 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
   const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    // { label: 'Products', href: '/products' },
+    {
+      label: 'Products',
+      href: '/products',
+      submenu: [
+        { label: 'Premium Birch', href: '/products/premium-birch' },
+        { label: 'Commercial Grade', href: '/products/commercial-grade' },
+        { label: 'Marine Grade', href: '/products/marine-grade' },
+        { label: 'Phenol Formaldehyde', href: '/products/phenol-formaldehyde' },
+        { label: 'Film Faced', href: '/products/film-faced' },
+        { label: 'Hardwood Veneer', href: '/products/hardwood-veneer' },
+        { label: 'Moisture Resistant', href: '/products/moisture-resistant' },
+      ],
+    },
+    { label: 'Brands', href: '/brands' },
     { label: 'Applications', href: '/applications' },
     { label: 'Warranty', href: '/warranty' },
+    { label: 'Brochures', href: '/brochures' },
     { label: 'Contact', href: '/contact' },
   ]
 
@@ -33,17 +47,49 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             {navItems.map((item) => (
-              <motion.div key={item.href} whileHover={{ y: -2 }}>
-                <Link
-                  href={item.href}
-                  className="text-gray-700 hover:text-red-600 font-medium transition-colors relative group"
-                >
-                  {item.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></span>
-                </Link>
-              </motion.div>
+              <div key={item.href} className="relative group">
+                <motion.div whileHover={{ y: -2 }}>
+                  <Link
+                    href={item.href}
+                    className="text-gray-700 hover:text-red-600 font-medium transition-colors relative inline-flex items-center gap-1"
+                    onMouseEnter={() => 'submenu' in item && setOpenDropdown(item.label)}
+                    onMouseLeave={() => 'submenu' in item && setOpenDropdown(null)}
+                  >
+                    {item.label}
+                    {'submenu' in item && <ChevronDown size={16} />}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></span>
+                  </Link>
+                </motion.div>
+
+                {/* Dropdown Menu */}
+                {'submenu' in item && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{
+                      opacity: openDropdown === item.label ? 1 : 0,
+                      y: openDropdown === item.label ? 0 : -10,
+                    }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                    onMouseEnter={() => setOpenDropdown(item.label)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                      {item.submenu?.map((subitem) => (
+                        <Link
+                          key={subitem.href}
+                          href={subitem.href}
+                          className="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors text-sm"
+                        >
+                          {subitem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
             ))}
           </nav>
 
@@ -79,14 +125,55 @@ export default function Header() {
         >
           <div className="px-4 py-4 space-y-3">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block text-gray-700 hover:text-red-600 font-medium py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
+              <div key={item.href}>
+                <Link
+                  href={item.href}
+                  className="block text-gray-700 hover:text-red-600 font-medium py-2"
+                  onClick={() => {
+                    setIsOpen(false);
+                    'submenu' in item && setOpenDropdown(null);
+                  }}
+                >
+                  {item.label}
+                </Link>
+                {'submenu' in item && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{
+                      opacity: openDropdown === item.label ? 1 : 0,
+                      height: openDropdown === item.label ? 'auto' : 0,
+                    }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pl-4 space-y-2 py-2">
+                      {item.submenu?.map((subitem) => (
+                        <Link
+                          key={subitem.href}
+                          href={subitem.href}
+                          className="block text-gray-600 hover:text-red-600 text-sm py-1"
+                          onClick={() => {
+                            setIsOpen(false);
+                            setOpenDropdown(null);
+                          }}
+                        >
+                          {subitem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+                {'submenu' in item && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenDropdown(openDropdown === item.label ? null : item.label);
+                    }}
+                    className="text-gray-600 hover:text-red-600 text-xs"
+                  >
+                    {openDropdown === item.label ? '▼' : '▶'}
+                  </button>
+                )}
+              </div>
             ))}
             <Link
               href="/contact"
