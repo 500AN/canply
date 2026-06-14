@@ -4,6 +4,8 @@ import { brands } from '@/lib/brands';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 export default function BrandsPage() {
   const containerVariants = {
@@ -27,7 +29,9 @@ export default function BrandsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background pt-20 md:pt-24">
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -118,48 +122,8 @@ export default function BrandsPage() {
           ))}
         </motion.div>
       </div>
-
-      {/* Trust Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="mt-16 py-16 border-t border-border bg-secondary"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-8 text-center">Why Choose Our Brands?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'International Certifications',
-                description:
-                  'All brands maintain strict compliance with international standards including FSC, ISO 9001, and DNV GL certifications.',
-              },
-              {
-                title: 'Proven Expertise',
-                description:
-                  'Decades of combined experience in plywood manufacturing with a track record of innovation and quality.',
-              },
-              {
-                title: 'Global Reach',
-                description:
-                  'Operating across multiple continents, our brands serve diverse markets from luxury residential to industrial applications.',
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="p-6 bg-background rounded-lg"
-              >
-                <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-    </main>
-  );
+      </main>
+      <Footer />
+    </>
+  )
 }

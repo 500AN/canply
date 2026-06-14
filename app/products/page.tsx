@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { motion } from 'framer-motion';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -48,7 +50,9 @@ export default function ProductsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background pt-20 md:pt-24">
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -224,6 +228,8 @@ export default function ProductsPage() {
           </motion.div>
         )}
       </div>
-    </main>
-  );
+      </main>
+      <Footer />
+    </>
+  )
 }

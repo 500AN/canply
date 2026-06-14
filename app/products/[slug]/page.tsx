@@ -12,6 +12,8 @@ import GetQuoteForm from '@/components/forms/get-quote-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import React from 'react';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -31,7 +33,9 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background">
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
       {/* Breadcrumb */}
       <div className="border-b border-border bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -183,6 +187,8 @@ export default function ProductDetailPage() {
           <RelatedProducts product={product} />
         </div>
       </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

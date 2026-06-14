@@ -8,6 +8,8 @@ import { X } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 export default function ComparisonPage() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
@@ -36,7 +38,9 @@ export default function ComparisonPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-background pt-20 md:pt-24">
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -248,6 +252,8 @@ export default function ComparisonPage() {
           </motion.div>
         )}
       </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }
