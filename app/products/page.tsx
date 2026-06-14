@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import { Check, Award, Shield, Zap } from 'lucide-react'
+import { Check, Award } from 'lucide-react'
 
 const products = [
   {
@@ -113,6 +113,15 @@ const products = [
   },
 ]
 
+const comparisonRows = [
+  { label: 'Warranty Period', values: ['Lifetime', '30 Years', '15 Years', '12 Years'] },
+  { label: 'Water Resistance', values: ['BWP', 'BWP', 'BWR', 'MR'] },
+  { label: 'Strength Level', values: ['Highest', 'Very High', 'High', 'Good'] },
+  { label: 'Borer & Fungus Proof', values: ['yes', 'yes', 'yes', 'yes'] },
+  { label: 'Fire Retardant', values: ['yes', 'yes', 'no', 'no'] },
+  { label: 'Marine Grade', values: ['yes', 'yes', 'no', 'no'] },
+]
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -133,9 +142,15 @@ const itemVariants = {
   },
 }
 
+function ComparisonCell({ value }: { value: string }) {
+  if (value === 'yes') return <Check size={18} className="text-red-600 mx-auto" />
+  if (value === 'no') return <span className="text-gray-300 text-lg">-</span>
+  return <>{value}</>
+}
+
 export default function ProductsPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
       <Header />
 
       {/* Hero Section */}
@@ -143,14 +158,14 @@ export default function ProductsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white"
+        className="pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white"
       >
         <div className="max-w-6xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold mb-6 font-heading"
+            className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 font-heading"
           >
             CANPLY Product Lineup
           </motion.h1>
@@ -158,7 +173,7 @@ export default function ProductsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto"
+            className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto"
           >
             Premium plywood solutions for every need, from luxury residential to industrial applications
           </motion.p>
@@ -171,23 +186,23 @@ export default function ProductsPage() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
-        className="py-20 px-4 sm:px-6 lg:px-8"
+        className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8"
       >
         <div className="max-w-6xl mx-auto">
-          <motion.div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {products.map((product, index) => (
+          <motion.div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            {products.map((product) => (
               <motion.div
                 key={product.id}
                 variants={itemVariants}
                 whileHover={{ y: -8 }}
                 className="group"
               >
-                <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                <div className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
                   {/* Header Bar with Color */}
                   <div className={`h-2 bg-gradient-to-r ${product.color}`}></div>
 
                   {/* Image */}
-                  <div className="relative h-80 overflow-hidden bg-gray-100">
+                  <div className="relative h-56 sm:h-80 overflow-hidden bg-gray-100">
                     <motion.div
                       whileHover={{ scale: 1.08 }}
                       transition={{ duration: 0.4 }}
@@ -197,6 +212,7 @@ export default function ProductsPage() {
                         src={product.image}
                         alt={product.name}
                         fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-cover"
                       />
                     </motion.div>
@@ -204,48 +220,50 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Content */}
-                  <div className="p-8">
+                  <div className="p-5 sm:p-8">
                     {/* Title and Warranty */}
-                    <div className="mb-6">
-                      <h3 className="text-3xl font-bold text-gray-900 mb-2 font-heading">
+                    <div className="mb-4 sm:mb-6">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 font-heading">
                         {product.name}
                       </h3>
                       <div className="flex items-center gap-2">
-                        <Award size={20} className="text-yellow-600" />
-                        <span className="text-lg font-semibold text-yellow-600">
+                        <Award size={20} className="text-yellow-600 flex-shrink-0" />
+                        <span className="text-base sm:text-lg font-semibold text-yellow-600">
                           {product.warranty} Warranty
                         </span>
                       </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+                    <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+                      {product.description}
+                    </p>
 
                     {/* Specifications */}
-                    <div className="mb-8 p-6 bg-gray-50 rounded-2xl">
+                    <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 rounded-2xl">
                       <h4 className="font-semibold text-gray-900 mb-4">Specifications</h4>
                       <div className="space-y-3">
-                        <div className="flex justify-between items-start">
-                          <span className="text-gray-600">Water Resistance:</span>
-                          <span className="font-semibold text-gray-900">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                          <span className="text-gray-600 text-sm sm:text-base">Water Resistance:</span>
+                          <span className="font-semibold text-gray-900 text-sm sm:text-base sm:text-right">
                             {product.specs.waterResistance}
                           </span>
                         </div>
-                        <div className="flex justify-between items-start">
-                          <span className="text-gray-600">Strength:</span>
-                          <span className="font-semibold text-gray-900">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                          <span className="text-gray-600 text-sm sm:text-base">Strength:</span>
+                          <span className="font-semibold text-gray-900 text-sm sm:text-base sm:text-right">
                             {product.specs.strength}
                           </span>
                         </div>
-                        <div className="flex justify-between items-start">
-                          <span className="text-gray-600">Thickness:</span>
-                          <span className="font-semibold text-gray-900">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                          <span className="text-gray-600 text-sm sm:text-base">Thickness:</span>
+                          <span className="font-semibold text-gray-900 text-sm sm:text-base sm:text-right">
                             {product.specs.thickness}
                           </span>
                         </div>
-                        <div className="flex justify-between items-start">
-                          <span className="text-gray-600">Applications:</span>
-                          <span className="font-semibold text-gray-900 text-right">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                          <span className="text-gray-600 text-sm sm:text-base">Applications:</span>
+                          <span className="font-semibold text-gray-900 text-sm sm:text-base sm:text-right">
                             {product.specs.application}
                           </span>
                         </div>
@@ -253,9 +271,9 @@ export default function ProductsPage() {
                     </div>
 
                     {/* Features */}
-                    <div className="mb-8">
+                    <div className="mb-6 sm:mb-8">
                       <h4 className="font-semibold text-gray-900 mb-4">Key Features</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {product.features.map((feature, i) => (
                           <motion.div
                             key={i}
@@ -265,7 +283,7 @@ export default function ProductsPage() {
                             className="flex items-center gap-3"
                           >
                             <Check size={18} className="text-red-600 flex-shrink-0" />
-                            <span className="text-gray-700">{feature}</span>
+                            <span className="text-sm sm:text-base text-gray-700">{feature}</span>
                           </motion.div>
                         ))}
                       </div>
@@ -293,62 +311,65 @@ export default function ProductsPage() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
+        className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50"
       >
         <div className="max-w-6xl mx-auto">
           <motion.h2
             variants={itemVariants}
-            className="text-4xl font-bold text-center text-gray-900 mb-12 font-heading"
+            className="text-2xl sm:text-4xl font-bold text-center text-gray-900 mb-3 sm:mb-12 font-heading"
           >
             Product Comparison
           </motion.h2>
 
+          <motion.p
+            variants={itemVariants}
+            className="text-center text-sm text-gray-500 mb-6 sm:hidden"
+          >
+            Swipe sideways to see all products
+          </motion.p>
+
           <motion.div
             variants={itemVariants}
-            className="overflow-x-auto rounded-2xl shadow-lg"
+            className="overflow-x-auto rounded-2xl shadow-lg -mx-4 px-4 sm:mx-0 sm:px-0"
           >
-            <table className="w-full bg-white">
+            <table className="bg-white border-collapse" style={{ minWidth: '640px', width: '100%' }}>
               <thead>
                 <tr className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-                  <th className="px-6 py-4 text-left font-semibold">Feature</th>
+                  <th className="px-4 sm:px-6 py-4 text-left font-semibold whitespace-nowrap sticky left-0 bg-gray-900 z-10">
+                    Feature
+                  </th>
                   {products.map((p) => (
-                    <th key={p.id} className="px-6 py-4 text-center font-semibold">
+                    <th
+                      key={p.id}
+                      className="px-4 sm:px-6 py-4 text-center font-semibold whitespace-nowrap"
+                    >
                       {p.name}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { label: 'Warranty Period', values: ['Lifetime', '30 Years', '15 Years', '12 Years'] },
-                  { label: 'Water Resistance', values: ['BWP', 'BWP', 'BWR', 'MR'] },
-                  { label: 'Strength Level', values: ['Highest', 'Very High', 'High', 'Good'] },
-                  { label: 'Borer & Fungus Proof', values: ['✓', '✓', '✓', '✓'] },
-                  { label: 'Fire Retardant', values: ['✓', '✓', '-', '-'] },
-                  { label: 'Marine Grade', values: ['✓', '✓', '-', '-'] },
-                ].map((row, i) => (
+                {comparisonRows.map((row, i) => (
                   <motion.tr
-                    key={i}
+                    key={row.label}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: i * 0.05 }}
                     className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                   >
-                    <td className="px-6 py-4 font-semibold text-gray-900 border-r border-gray-200">
+                    <td
+                      className={`px-4 sm:px-6 py-4 font-semibold text-gray-900 border-r border-gray-200 whitespace-nowrap sticky left-0 z-10 ${
+                        i % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                      }`}
+                    >
                       {row.label}
                     </td>
                     {row.values.map((value, j) => (
                       <td
                         key={j}
-                        className="px-6 py-4 text-center text-gray-700 border-r border-gray-200 last:border-r-0"
+                        className="px-4 sm:px-6 py-4 text-center text-sm sm:text-base text-gray-700 border-r border-gray-200 last:border-r-0 whitespace-nowrap"
                       >
-                        {value === '✓' ? (
-                          <span className="text-red-600 text-lg">✓</span>
-                        ) : value === '-' ? (
-                          <span className="text-gray-300 text-lg">-</span>
-                        ) : (
-                          value
-                        )}
+                        <ComparisonCell value={value} />
                       </td>
                     ))}
                   </motion.tr>

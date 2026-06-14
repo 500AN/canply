@@ -137,7 +137,7 @@ export default function ApplicationsPage() {
   const productGrades = ['Platinum', 'Gold BWP', 'Gold BWR', 'Gold MR']
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
       <Header />
 
       {/* Hero Section */}
@@ -145,14 +145,14 @@ export default function ApplicationsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white"
+        className="pt-28 sm:pt-32 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white"
       >
         <div className="max-w-6xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold mb-6 font-heading"
+            className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 font-heading"
           >
             Where CANPLY Goes
           </motion.h1>
@@ -160,7 +160,7 @@ export default function ApplicationsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto"
+            className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto"
           >
             From luxury homes to aerospace engineering, CANPLY plywood brings excellence to diverse industries and applications worldwide.
           </motion.p>
@@ -172,19 +172,19 @@ export default function ApplicationsPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50"
+        className="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-gray-50"
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-center text-gray-900">
             Filter by Product Grade
           </h2>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex gap-3 sm:gap-4 justify-start sm:justify-center overflow-x-auto pb-2 -mx-4 px-4 sm:overflow-visible sm:mx-0 sm:px-0 sm:flex-wrap">
             <motion.button
               key="all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedProduct(null)}
-              className={`px-6 py-3 rounded-full font-medium transition-all ${
+              className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-medium text-sm sm:text-base whitespace-nowrap transition-all ${
                 selectedProduct === null
                   ? 'bg-red-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-red-600'
@@ -198,7 +198,7 @@ export default function ApplicationsPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProduct(grade)}
-                className={`px-6 py-3 rounded-full font-medium transition-all ${
+                className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-medium text-sm sm:text-base whitespace-nowrap transition-all ${
                   selectedProduct === grade
                     ? 'bg-red-600 text-white shadow-lg'
                     : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-red-600'
@@ -217,11 +217,11 @@ export default function ApplicationsPage() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
-        className="py-20 px-4 sm:px-6 lg:px-8"
+        className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8"
       >
         <div className="max-w-6xl mx-auto">
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filtered.map((app, index) => (
+          <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {filtered.map((app) => (
               <motion.div
                 key={app.id}
                 variants={itemVariants}
@@ -230,7 +230,7 @@ export default function ApplicationsPage() {
               >
                 <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
                   {/* Image Container */}
-                  <div className="relative h-64 md:h-80 overflow-hidden bg-gray-200">
+                  <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden bg-gray-200">
                     <motion.div
                       whileHover={{ scale: 1.08 }}
                       transition={{ duration: 0.4 }}
@@ -240,6 +240,7 @@ export default function ApplicationsPage() {
                         src={app.image}
                         alt={app.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
                       />
                     </motion.div>
@@ -247,11 +248,11 @@ export default function ApplicationsPage() {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6 md:p-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3 font-heading">
+                  <div className="p-5 sm:p-6 md:p-8">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 font-heading">
                       {app.title}
                     </h3>
-                    <p className="text-gray-600 mb-4">{app.description}</p>
+                    <p className="text-sm sm:text-base text-gray-600 mb-4">{app.description}</p>
 
                     {/* Features */}
                     <div className="mb-6">
@@ -262,7 +263,7 @@ export default function ApplicationsPage() {
                         {app.features.map((feature) => (
                           <span
                             key={feature}
-                            className="px-3 py-1 bg-red-100 text-red-600 text-sm rounded-full font-medium"
+                            className="px-3 py-1 bg-red-100 text-red-600 text-xs sm:text-sm rounded-full font-medium"
                           >
                             {feature}
                           </span>
@@ -277,7 +278,7 @@ export default function ApplicationsPage() {
                           <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
                             Warranty
                           </p>
-                          <p className="text-lg font-bold text-red-600">
+                          <p className="text-base sm:text-lg font-bold text-red-600">
                             {app.specs.warranty}
                           </p>
                         </div>
@@ -285,11 +286,11 @@ export default function ApplicationsPage() {
                           <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
                             Products
                           </p>
-                          <div className="flex flex-wrap gap-1">
+                          <div className="flex flex-col gap-0.5">
                             {app.products.map((p) => (
                               <span
                                 key={p}
-                                className="text-xs font-semibold text-gray-700"
+                                className="text-xs sm:text-sm font-semibold text-gray-700"
                               >
                                 {p}
                               </span>
